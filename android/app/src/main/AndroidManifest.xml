@@ -10,7 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FruitApp">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.fruitadd.AddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.fruitdetails.DetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.fruitedit.EditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.fruitlist.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
