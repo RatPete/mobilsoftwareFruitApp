@@ -1,6 +1,19 @@
 package com.example.fruitapp.persistence
 
-import com.example.fruitapp.model.Nutrition
+import androidx.room.*
 
-class FruitDao(val name:String,val genus:String,val family:String,val order:String,val carbohydrates:Int, val protein: Int, val fat:Int, val calories:Int, val sugar: Int) {
+@Dao
+interface FruitDao {
+    @Query("""SELECT * FROM fruit""")
+    fun getAllFruits(): List<Fruit>
+    @Query("SELECT * FROM fruit WHERE name=:name")
+    fun getFruitByName(name:String): Fruit
+    @Insert
+    fun insertFruit(vararg fruits:Fruit)
+    @Delete
+    fun deleteFruit(fruit:Fruit)
+    @Query("DELETE FROM fruit")
+    fun deleteAllFruits()
+    @Update
+    fun updateFruit(fruit:Fruit)
 }
