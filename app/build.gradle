@@ -40,7 +40,14 @@ android {
         viewBinding true
     }
 }
-
+ext {
+    oltu_version = "1.0.1"
+    retrofit_version = "2.7.1"
+    swagger_annotations_version = "1.5.24"
+    junit_version = "4.12"
+    threetenbp_version = "1.4.1"
+    json_fire_version = "1.8.3"
+}
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
@@ -54,5 +61,21 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation("com.google.dagger:hilt-android:2.38.1")
     kapt("com.google.dagger:hilt-android-compiler:2.38.1")
+    def room_version="2.4.2"
+    implementation ("androidx.room:room-runtime:$room_version")
+    kapt ("androidx.room:room-compiler:$room_version")
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    implementation ("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"){
+        exclude group:'org.apache.oltu.oauth2' , module: 'org.apache.oltu.oauth2.common'
+    }
+    implementation "io.gsonfire:gson-fire:$json_fire_version"
+    implementation "org.threeten:threetenbp:$threetenbp_version"
+
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "org.mockito:mockito-core:3.+"
+    testImplementation("com.squareup.retrofit2:retrofit-mock:2.9.0")
 
 }

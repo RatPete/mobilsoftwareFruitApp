@@ -1,0 +1,183 @@
+swagger: "2.0"
+info:
+  description: "This is a server for the public FruityVice API"
+  version: "1.0.0"
+  title: "Swagger Fruitvice"
+host: "fruityvice.com"
+basePath: "/api"
+tags:
+- name: "fruit"
+  description: "Everything about your fruits"
+schemes:
+- "https"
+- "http"
+paths:
+  /fruit:
+    post:
+      tags:
+      - "fruit"
+      summary: "Add a new fruit to the database"
+      description: ""
+      operationId: "addFruit"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Fruit object that needs to be added to the database"
+        required: true
+        schema:
+          $ref: "#/definitions/Fruit"
+      responses:
+        "405":
+          description: "Invalid input"
+    put:
+      tags:
+      - "fruit"
+      summary: "Update an existing fruit"
+      description: ""
+      operationId: "updateFruit"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Fruit object that needs to be added to the database"
+        required: true
+        schema:
+          $ref: "#/definitions/Fruit"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Fruit not found"
+        "405":
+          description: "Validation exception"
+ 
+  /fruit/{fruitId}:
+    get:
+      tags:
+      - "fruit"
+      summary: "Find fruit by ID"
+      description: "Returns a single fruit"
+      operationId: "getFruitById"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "fruitId"
+        in: "path"
+        description: "ID of fruit to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Fruit"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Fruit not found"
+    delete:
+      tags:
+      - "fruit"
+      summary: "Deletes a fruit"
+      description: ""
+      operationId: "deleteFruit"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "fruitId"
+        in: "path"
+        description: "Fruit id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Fruit not found"
+  /fruit/all:
+    get:
+      tags:
+      - "fruit"
+      summary: "Return all fruits in the database"
+      description: "Returns all the fruits"
+      operationId: "getFruits"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Fruit"
+
+definitions:
+  Nutrition:
+    type : "object"
+    properties:
+      carbohydrates:
+        type: "number"
+        format : "double"
+      protein:
+        type: "number"
+        format : "double"
+      fat:
+        type: "number"
+        format : "double"
+      calories:
+        type: "integer"
+        format : "int64"
+      sugar:
+        type: "number"
+        format : "double"
+        
+    xml:
+      name: "nutrition"
+  Fruit:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      
+      genus:
+        type: "string"
+      name:
+        type: "string"
+      id:
+        type: "integer"
+        format: "int64"
+      family:
+        type: "string"
+      order:
+        type: "string"
+      nutritions:
+         $ref: "#/definitions/Nutrition"
+    xml:
+      name: "fruit"
+  
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
