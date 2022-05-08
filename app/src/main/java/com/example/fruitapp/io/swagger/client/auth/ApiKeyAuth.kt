@@ -14,7 +14,7 @@ class ApiKeyAuth(val location: String, val paramName: String) : Interceptor {
         val paramValue: String
         var request = chain.request()
         if ("query" == location) {
-            var newQuery = request.url().uri().query
+            var newQuery = request.url.toUri().query
             paramValue = "$paramName=$apiKey"
             if (newQuery == null) {
                 newQuery = paramValue
@@ -24,8 +24,8 @@ class ApiKeyAuth(val location: String, val paramName: String) : Interceptor {
             val newUri: URI
             newUri = try {
                 URI(
-                    request.url().uri().scheme, request.url().uri().authority,
-                    request.url().uri().path, newQuery, request.url().uri().fragment
+                    request.url.toUri().scheme, request.url.toUri().authority,
+                    request.url.toUri().path, newQuery, request.url.toUri().fragment
                 )
             } catch (e: URISyntaxException) {
                 throw IOException(e)
@@ -33,7 +33,7 @@ class ApiKeyAuth(val location: String, val paramName: String) : Interceptor {
             request = request.newBuilder().url(newUri.toURL()).build()
         } else if ("header" == location) {
             request = request.newBuilder()
-                .addHeader(paramName, apiKey)
+                .addHeader(paramName, apiKey!!)
                 .build()
         }
         return chain.proceed(request)

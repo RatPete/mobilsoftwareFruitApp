@@ -1,21 +1,18 @@
 plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
-
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
 
 
-
 }
-
 android {
-    compileSdk 32
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.example.fruitapp"
         minSdk 21
-        targetSdk 32
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
@@ -37,8 +34,10 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
-        viewBinding true
+
+        dataBinding true
     }
+
 }
 ext {
     oltu_version = "1.0.1"
@@ -71,11 +70,15 @@ dependencies {
     implementation ("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"){
         exclude group:'org.apache.oltu.oauth2' , module: 'org.apache.oltu.oauth2.common'
     }
+    implementation 'com.squareup.okhttp3:okhttp:4.9.2'
     implementation "io.gsonfire:gson-fire:$json_fire_version"
     implementation "org.threeten:threetenbp:$threetenbp_version"
-
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.mockito:mockito-core:3.+"
     testImplementation("com.squareup.retrofit2:retrofit-mock:2.9.0")
 
 }
+
+
