@@ -85,7 +85,7 @@ class OAuth(client: OkHttpClient?, requestBuilder: TokenRequestBuilder) : Interc
             val rb = request.newBuilder()
             val requestAccessToken: String = accessToken!!
             oAuthRequest = try {
-                OAuthBearerClientRequest(request.url().toString())
+                OAuthBearerClientRequest(request.url.toString())
                     .setAccessToken(requestAccessToken)
                     .buildHeaderMessage()
             } catch (e: OAuthSystemException) {
@@ -100,14 +100,14 @@ class OAuth(client: OkHttpClient?, requestBuilder: TokenRequestBuilder) : Interc
             val response = chain.proceed(rb.build())
 
             // 401/403 most likely indicates that access token has expired. Unless it happens two times in a row.
-            if (response != null && (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED || response.code() == HttpURLConnection.HTTP_FORBIDDEN) && updateTokenAndRetryOnAuthorizationFailure) {
+            if (response != null && (response.code == HttpURLConnection.HTTP_UNAUTHORIZED || response.code == HttpURLConnection.HTTP_FORBIDDEN) && updateTokenAndRetryOnAuthorizationFailure) {
                 try {
                     if (updateAccessToken(requestAccessToken)) {
-                        response.body()!!.close()
+                        response.body!!.close()
                         return retryingIntercept(chain, false)
                     }
                 } catch (e: Exception) {
-                    response.body()!!.close()
+                    response.body!!.close()
                     throw e
                 }
             }
