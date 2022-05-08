@@ -1,20 +1,15 @@
 package com.example.fruitapp.io.swagger.client.api
 
-import com.example.fruitapp.io.swagger.client.api.FruitApi
-import com.example.fruitapp.io.swagger.client.ApiClient
-import com.example.fruitapp.io.swagger.client.model.Fruit
-import com.example.fruitapp.network.FruitService
+import com.example.fruitapp.io.swagger.client.model.Nutrition
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
-import java.io.IOException
 import retrofit2.mock.Calls
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.mockito.junit.MockitoJUnitRunner
-import retrofit2.Call
 
 /**
  * API tests for FruitApi
@@ -22,35 +17,11 @@ import retrofit2.Call
 @RunWith(
     MockitoJUnitRunner::class)
 class FruitApiTest {
-    private var api: FruitService? = null
+    private var api: FruitApi? = null
     @Before
     fun setup() {
-        api = mock(FruitService::class.java, Mockito.RETURNS_DEEP_STUBS)
+        api = mock(FruitApi::class.java, Mockito.RETURNS_DEEP_STUBS)
     }
-
-    /**
-     * Add a new fruit to the database
-     *
-     *
-     */
-    @Test
-    fun addFruitTest() {
-
-    }
-
-    /**
-     * Deletes a fruit
-     *
-     *
-     */
-    @Test
-    fun deleteFruitTest() {
-        val fruitId: Long? = null
-        // api.deleteFruit(fruitId);
-
-        // TODO: test validations
-    }// TODO: test validations
-
     /**
      * Find fruit by ID
      *
@@ -58,12 +29,22 @@ class FruitApiTest {
      */
     @Test
     fun fruitByIdTest(){
-        val fruit=com.example.fruitapp.presmodels.Fruit("TestId1Fruit","","","",0.0,0.0,0.0,0,0.0)
+        val fruit=com.example.fruitapp.io.swagger.client.model.Fruit()
+        fruit.name="TestName"
+        fruit.genus=""
+        fruit.order=""
+        fruit.family=""
+        fruit.id=6
+        fruit.nutritions= Nutrition()
+        fruit.nutritions.calories=0
+        fruit.nutritions.carbohydrates=0.0
+        fruit.nutritions.fat=0.0
+        fruit.nutritions.protein=0.2
+        fruit.nutritions.sugar=0.0
 
-        `when`(api?.getFruit(6)).thenReturn(fruit)
-        // api.addFruit(body);
-        var resFruit=api?.getFruit(6)
-        Assert.assertEquals(resFruit?.name,"TestId1Fruit")
+        `when`(api?.getFruitById(6)).thenReturn(Calls.response(fruit))
+        var resFruit=api?.getFruitById(6)
+        Assert.assertEquals(resFruit!!.execute().body()!!.name,"TestName")
 
 
         }
@@ -75,25 +56,24 @@ class FruitApiTest {
      */
     @Test
     fun fruitsTest(){
-            try {
-                Assert.assertEquals(3, 3)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-
-            // TODO: test validations
-        }
-
-    /**
-     * Update an existing fruit
-     *
-     *
-     */
-    @Test
-    fun updateFruitTest() {
-        val body: Fruit? = null
-        // api.updateFruit(body);
-
-        // TODO: test validations
+        val fruit=com.example.fruitapp.io.swagger.client.model.Fruit()
+        fruit.name="TestName"
+        fruit.genus=""
+        fruit.order=""
+        fruit.family=""
+        fruit.id=6
+        fruit.nutritions= Nutrition()
+        fruit.nutritions.calories=0
+        fruit.nutritions.carbohydrates=0.0
+        fruit.nutritions.fat=0.0
+        fruit.nutritions.protein=0.2
+        fruit.nutritions.sugar=0.0
+        val fruitList = mutableListOf<com.example.fruitapp.io.swagger.client.model.Fruit>()
+        fruitList.add(fruit)
+        `when`(api?.fruits).thenReturn(Calls.response(fruitList))
+        var resFruit=api?.fruits
+        Assert.assertEquals(resFruit!!.execute().body()!!.size,1)
     }
+
+
 }

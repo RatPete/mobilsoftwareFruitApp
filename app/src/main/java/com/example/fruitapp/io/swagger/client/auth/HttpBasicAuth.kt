@@ -20,7 +20,7 @@ class HttpBasicAuth : Interceptor {
 
         // If the request already have an authorization (eg. Basic auth), do nothing
         if (request.header("Authorization") == null) {
-            val credentials = Credentials.basic(username, password)
+            val credentials = Credentials.basic(username!!, password!!)
             request = request.newBuilder()
                 .addHeader("Authorization", credentials)
                 .build()
