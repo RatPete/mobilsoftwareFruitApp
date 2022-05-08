@@ -1,6 +1,6 @@
 package com.example.fruitapp.presmodels
 
-data class Fruit(var name:String,
+data class Fruit(var id:Long?,var name:String,
                  var genus:String,
                  var family:String,
                  var order:String,

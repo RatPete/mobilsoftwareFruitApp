@@ -1,6 +1,7 @@
 package com.example.fruitapp.io.swagger.client.auth
 
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import kotlin.Throws
@@ -31,12 +32,12 @@ class OAuthOkHttpClient : HttpClient {
         requestMethod: String,
         responseClass: Class<T>
     ): T {
-        var mediaType = MediaType.parse("application/json")
+        var mediaType = "application/json".toMediaTypeOrNull()
         val requestBuilder = Request.Builder().url(request.locationUri)
         if (headers != null) {
             for ((key, value) in headers) {
                 if (key.equals("Content-Type", ignoreCase = true)) {
-                    mediaType = MediaType.parse(value)
+                    mediaType = value.toMediaTypeOrNull()
                 } else {
                     requestBuilder.addHeader(key, value)
                 }
@@ -47,9 +48,9 @@ class OAuthOkHttpClient : HttpClient {
         return try {
             val response = client.newCall(requestBuilder.build()).execute()
             OAuthClientResponseFactory.createCustomResponse(
-                response.body()!!.string(),
-                response.body()!!.contentType().toString(),
-                response.code(),
+                response.body!!.string(),
+                response.body!!.contentType().toString(),
+                response.code,
                 responseClass
             )
         } catch (e: IOException) {
