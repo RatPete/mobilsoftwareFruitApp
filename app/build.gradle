@@ -7,12 +7,12 @@ plugins {
 
 }
 android {
-    compileSdk 31
+    compileSdk 32
 
     defaultConfig {
         applicationId "com.example.fruitapp"
         minSdk 21
-        targetSdk 31
+        targetSdk 32
         versionCode 1
         versionName "1.0"
 
@@ -75,10 +75,22 @@ dependencies {
     implementation "org.threeten:threetenbp:$threetenbp_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
+
+    //New
+
+    implementation platform('com.google.firebase:firebase-bom:30.0.0')
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    //NEW END
+
+
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.mockito:mockito-core:3.+"
     testImplementation("com.squareup.retrofit2:retrofit-mock:2.9.0")
 
 }
 
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
